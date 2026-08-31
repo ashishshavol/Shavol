@@ -10,6 +10,73 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Manrope:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
+/* ============ WHATSAPP FLOAT + CONTACT POPUP ============ */
+.wa-float{
+  position:fixed;
+  right:24px;
+  bottom:24px;
+  width:58px;height:58px;
+  border-radius:50%;
+  background:#25D366;
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 12px 30px -10px rgba(0,0,0,.45);
+  z-index:999;
+  transition:transform .2s ease, box-shadow .2s ease;
+}
+.wa-float:hover{transform:translateY(-3px) scale(1.05);box-shadow:0 16px 36px -10px rgba(0,0,0,.5);}
+.wa-float svg{width:30px;height:30px;fill:#fff;}
+.wa-float .wa-ping{
+  position:absolute;inset:0;border-radius:50%;
+  background:#25D366;opacity:.55;
+  animation:waPing 2.2s ease-out infinite;
+}
+@keyframes waPing{
+  0%{transform:scale(1);opacity:.55;}
+  100%{transform:scale(1.7);opacity:0;}
+}
+@media (max-width:640px){
+  .wa-float{right:16px;bottom:16px;width:52px;height:52px;}
+  .wa-float svg{width:26px;height:26px;}
+}
+
+.clickable{
+  cursor:pointer;
+  position:relative;
+  transition:color .2s ease;
+}
+.contact-list li.clickable:hover{color:var(--teal);}
+.footer-col li.clickable:hover{color:var(--gold-2);}
+.contact-popover{
+  position:absolute;
+  left:0;
+  top:calc(100% + 8px);
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:14px;
+  box-shadow:var(--shadow-sm);
+  padding:8px;
+  display:none;
+  flex-direction:column;
+  gap:2px;
+  min-width:190px;
+  z-index:40;
+}
+.contact-popover.open{display:flex;}
+.contact-popover a{
+  display:flex;align-items:center;gap:10px;
+  padding:10px 12px;
+  border-radius:9px;
+  font-size:13.5px;
+  font-weight:600;
+  color:var(--navy);
+  transition:background .15s ease;
+}
+.contact-popover a:hover{background:var(--paper-2);}
+.contact-popover a svg{width:16px;height:16px;flex-shrink:0;}
+.contact-popover a.opt-whatsapp{color:#1c9457;}
+.contact-popover a.opt-gmail{color:#C5221F;}
+.contact-popover a.opt-call{color:var(--teal);}
+
 /* ============ TOKENS ============ */
 :root{
   --navy:#0E2148;
@@ -455,6 +522,11 @@ h1 .ital{font-style:italic;color:var(--teal);}
 </head>
 <body>
 
+<a class="wa-float" href="https://wa.me/919521711557?text=Hi%20Shavol%20Healthcare%2C%20I%27d%20like%20to%20enquire%20about%20your%20products." target="_blank" rel="noopener" aria-label="Chat on WhatsApp">
+  <span class="wa-ping"></span>
+  <svg viewBox="0 0 32 32"><use href="#ic-whatsapp"/></svg>
+</a>
+
 <!-- ============ ICON SPRITE ============ -->
 <svg class="sprite" aria-hidden="true">
 <defs>
@@ -488,6 +560,8 @@ h1 .ital{font-style:italic;color:var(--teal);}
   <symbol id="ic-mail" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><polyline points="3 7 12 13 21 7"/></symbol>
   <symbol id="ic-phone" viewBox="0 0 24 24"><path d="M5 4h3.5l1.5 4.5-2 1.5a11 11 0 0 0 6 6l1.5-2 4.5 1.5V19a2 2 0 0 1-2.2 2A16 16 0 0 1 3 5.2 2 2 0 0 1 5 4z"/></symbol>
   <symbol id="ic-pin" viewBox="0 0 24 24"><path d="M12 22s7-7.5 7-12.5A7 7 0 0 0 5 9.5C5 14.5 12 22 12 22z"/><circle cx="12" cy="9.5" r="2.4"/></symbol>
+  <symbol id="ic-whatsapp" viewBox="0 0 32 32"><path d="M16.001 3C9.373 3 4 8.373 4 15.001c0 2.386.699 4.61 1.902 6.481L4 29l7.694-1.868A11.94 11.94 0 0 0 16.001 27C22.628 27 28 21.627 28 15.001 28 8.373 22.628 3 16.001 3zm0 21.818c-1.94 0-3.75-.55-5.29-1.502l-.379-.226-4.567 1.108 1.13-4.457-.246-.395a9.79 9.79 0 0 1-1.522-5.345c0-5.416 4.412-9.827 9.874-9.827 5.416 0 9.827 4.411 9.827 9.827s-4.41 9.817-9.827 9.817zm5.4-7.36c-.296-.148-1.75-.865-2.022-.964-.271-.099-.469-.148-.667.148-.198.297-.766.964-.939 1.163-.173.198-.346.223-.642.075-.296-.149-1.25-.46-2.38-1.467-.879-.784-1.473-1.752-1.646-2.048-.173-.297-.019-.457.13-.605.133-.133.296-.346.444-.52.148-.173.198-.297.296-.494.099-.198.05-.372-.024-.52-.074-.149-.667-1.608-.914-2.203-.24-.578-.485-.5-.667-.51l-.568-.01c-.198 0-.52.075-.792.372-.271.297-1.037 1.014-1.037 2.472s1.062 2.868 1.21 3.066c.148.198 2.09 3.19 5.062 4.472.708.306 1.26.489 1.69.626.71.226 1.355.194 1.866.118.569-.085 1.75-.716 1.997-1.408.247-.692.247-1.284.173-1.408-.074-.124-.271-.198-.568-.346z"/></symbol>
+  <symbol id="ic-gmail" viewBox="0 0 24 24"><path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 2-8 5-8-5"/></symbol>
   <symbol id="ic-plus" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></symbol>
   <symbol id="ic-minus" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/></symbol>
   <symbol id="ic-trash" viewBox="0 0 24 24"><polyline points="4 7 20 7"/><path d="M6 7l1 13a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2l1-13"/><path d="M9 7V4h6v3"/></symbol>
@@ -690,8 +764,26 @@ h1 .ital{font-style:italic;color:var(--teal);}
       <p>For trade enquiries, franchise requests or product documentation, reach out directly or send an enquiry from your cart.</p>
       <ul class="contact-list">
         <li><svg class="icon"><use href="#ic-pin"/></svg> Plot No. i 13, FF, Phase 3 DSIDC Badli Industrial Area, Delhi - 110042, India</li>
-        <li><svg class="icon"><use href="#ic-mail"/></svg> info@shavol.com</li>
-        <li><svg class="icon"><use href="#ic-phone"/></svg> +91 9521711557</li>
+        <li class="clickable" id="emailContactItem"><svg class="icon"><use href="#ic-mail"/></svg> info@shavol.com
+          <div class="contact-popover" id="emailPopover">
+            <a class="opt-gmail" href="https://mail.google.com/mail/?view=cm&fs=1&to=info@shavol.com&su=Trade%20Enquiry%20%E2%80%94%20Shavol%20Healthcare" target="_blank" rel="noopener">
+              <svg class="icon"><use href="#ic-gmail"/></svg> Open in Gmail
+            </a>
+            <a class="opt-call" href="mailto:info@shavol.com">
+              <svg class="icon"><use href="#ic-mail"/></svg> Default mail app
+            </a>
+          </div>
+        </li>
+        <li class="clickable" id="phoneContactItem"><svg class="icon"><use href="#ic-phone"/></svg> +919521711557
+          <div class="contact-popover" id="phonePopover">
+            <a class="opt-call" href="tel:+919521711557">
+              <svg class="icon"><use href="#ic-phone"/></svg> Call now
+            </a>
+            <a class="opt-whatsapp" href="https://wa.me/919521711557?text=Hi%20Shavol%20Healthcare%2C%20I%27d%20like%20to%20enquire%20about%20your%20products." target="_blank" rel="noopener">
+              <svg class="icon"><use href="#ic-whatsapp"/></svg> WhatsApp
+            </a>
+          </div>
+        </li>
       </ul>
     </div>
     <form class="contact-form reveal" id="contactForm">
@@ -736,8 +828,26 @@ h1 .ital{font-style:italic;color:var(--teal);}
     <div class="footer-col">
       <h4>Contact</h4>
       <ul>
-        <li>+91 9521711557</li>
-        <li>info@shavol.com</li>
+        <li class="clickable" id="footerPhoneItem">+919521711557
+          <div class="contact-popover" id="footerPhonePopover">
+            <a class="opt-call" href="tel:+919521711557">
+              <svg class="icon"><use href="#ic-phone"/></svg> Call now
+            </a>
+            <a class="opt-whatsapp" href="https://wa.me/919521711557?text=Hi%20Shavol%20Healthcare%2C%20I%27d%20like%20to%20enquire%20about%20your%20products." target="_blank" rel="noopener">
+              <svg class="icon"><use href="#ic-whatsapp"/></svg> WhatsApp
+            </a>
+          </div>
+        </li>
+        <li class="clickable" id="footerEmailItem">info@shavol.com
+          <div class="contact-popover" id="footerEmailPopover">
+            <a class="opt-gmail" href="https://mail.google.com/mail/?view=cm&fs=1&to=info@shavol.com&su=Trade%20Enquiry%20%E2%80%94%20Shavol%20Healthcare" target="_blank" rel="noopener">
+              <svg class="icon"><use href="#ic-gmail"/></svg> Open in Gmail
+            </a>
+            <a class="opt-call" href="mailto:info@shavol.com">
+              <svg class="icon"><use href="#ic-mail"/></svg> Default mail app
+            </a>
+          </div>
+        </li>
         <li>DELHI-INDIA </li>
       </ul>
     </div>
@@ -1186,7 +1296,10 @@ function closeModal(){
 closeModalBtn.addEventListener('click', closeModal);
 modalBackdrop.addEventListener('click', e => { if (e.target === modalBackdrop) closeModal(); });
 document.addEventListener('keydown', e => {
-  if (e.key === 'Escape'){ closeModal(); closeCart(); closeMobileNav(); }
+  if (e.key === 'Escape'){
+    closeModal(); closeCart(); closeMobileNav();
+    document.querySelectorAll('.contact-popover.open').forEach(p => p.classList.remove('open'));
+  }
 });
 
 /* ---------------- TOAST ---------------- */
@@ -1236,6 +1349,31 @@ const io = new IntersectionObserver(entries => {
   });
 }, { threshold: 0.12 });
 revealEls.forEach(el => io.observe(el));
+
+/* ---------------- CONTACT POPOVERS (email / phone) ---------------- */
+const allContactPopovers = document.querySelectorAll('.contact-popover');
+const contactPairs = [
+  ['emailContactItem', 'emailPopover'],
+  ['phoneContactItem', 'phonePopover'],
+  ['footerPhoneItem', 'footerPhonePopover'],
+  ['footerEmailItem', 'footerEmailPopover']
+];
+function closeAllContactPopovers(){
+  allContactPopovers.forEach(p => p.classList.remove('open'));
+}
+contactPairs.forEach(([itemId, popoverId]) => {
+  const item = document.getElementById(itemId);
+  const popover = document.getElementById(popoverId);
+  if (!item || !popover) return;
+  item.addEventListener('click', e => {
+    if (e.target.closest('.contact-popover')) return;
+    e.stopPropagation();
+    const wasOpen = popover.classList.contains('open');
+    closeAllContactPopovers();
+    if (!wasOpen) popover.classList.add('open');
+  });
+});
+document.addEventListener('click', closeAllContactPopovers);
 
 /* ---------------- HEADER SHADOW ON SCROLL ---------------- */
 const header = document.getElementById('siteHeader');
