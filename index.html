@@ -190,10 +190,10 @@ section{padding:96px 0;}
 h1{font-size:clamp(34px,4.6vw,58px);line-height:1.06;letter-spacing:-.015em;margin-top:16px;}
 h1 .ital{font-style:italic;color:var(--teal);}
 .hero-cta{display:flex;gap:14px;margin-top:32px;flex-wrap:wrap;}
-.hero-stats{display:flex;gap:36px;margin-top:48px;padding-top:28px;border-top:1px solid var(--line);}
-.hero-stats div{display:flex;flex-direction:column;}
-.hero-stats strong{font-family:var(--ff-display);font-size:26px;color:var(--navy);}
-.hero-stats span{font-size:12.5px;color:var(--ink-faint);margin-top:2px;}
+.hero-stats{display:flex;gap:28px;margin-top:44px;padding-top:24px;border-top:1px solid var(--line);flex-wrap:nowrap;overflow-x:auto;}
+.hero-stats div{display:flex;flex-direction:column;flex-shrink:0;}
+.hero-stats strong{font-family:var(--ff-display);font-size:22px;color:var(--navy);white-space:nowrap;}
+.hero-stats span{font-size:12px;color:var(--ink-faint);margin-top:2px;white-space:nowrap;}
 
 .hero-art{position:relative;aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;}
 .hero-mark{width:58%;filter:drop-shadow(0 30px 45px rgba(14,33,72,.25));}
@@ -221,13 +221,12 @@ h1 .ital{font-style:italic;color:var(--teal);}
 .cat-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:16px;}
 .cat-card{
   background:var(--card);border:1px solid var(--line);border-radius:var(--radius-card);
-  padding:26px 20px;cursor:pointer;transition:all .3s ease;text-align:left;
+  padding:0;cursor:pointer;transition:all .3s ease;text-align:left;overflow:hidden;
 }
 .cat-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-sm);border-color:transparent;}
-.cat-card .cat-icon{
-  width:46px;height:46px;border-radius:14px;display:flex;align-items:center;justify-content:center;margin-bottom:16px;
-}
-.cat-card .cat-icon .icon{width:22px;height:22px;color:#fff;}
+.cat-card .cat-photo{width:100%;height:140px;object-fit:cover;display:block;background:#eee;transition:transform .5s ease;}
+.cat-card:hover .cat-photo{transform:scale(1.06);}
+.cat-card .cat-body{padding:18px 20px 22px;}
 .cat-card h3{font-size:16px;margin-bottom:6px;}
 .cat-card p{font-size:12.5px;color:var(--ink-faint);}
 .cat-card .cat-count{font-family:var(--ff-mono);font-size:11px;color:var(--teal);font-weight:600;margin-top:10px;display:block;}
@@ -433,7 +432,7 @@ h1 .ital{font-style:italic;color:var(--teal);}
   .main-nav a:last-child{border-bottom:none;}
   .hero-inner{grid-template-columns:1fr;}
   .hero-art{order:-1;max-width:280px;margin:0 auto;}
-  .hero-stats{gap:24px;flex-wrap:wrap;}
+  .hero-stats{gap:20px;flex-wrap:nowrap;}
   .trust-grid{grid-template-columns:1fr 1fr;}
   .trust-item{border-left:none;padding:14px 0;}
   .cat-grid{grid-template-columns:1fr 1fr;}
@@ -692,7 +691,7 @@ h1 .ital{font-style:italic;color:var(--teal);}
       <ul class="contact-list">
         <li><svg class="icon"><use href="#ic-pin"/></svg> Plot No. i 13, FF, Phase 3 DSIDC Badli Industrial Area, Delhi - 110042, India</li>
         <li><svg class="icon"><use href="#ic-mail"/></svg> info@shavol.com</li>
-        <li><svg class="icon"><use href="#ic-phone"/></svg> 9521711557</li>
+        <li><svg class="icon"><use href="#ic-phone"/></svg> +919521711557</li>
       </ul>
     </div>
     <form class="contact-form reveal" id="contactForm">
@@ -737,7 +736,7 @@ h1 .ital{font-style:italic;color:var(--teal);}
     <div class="footer-col">
       <h4>Contact</h4>
       <ul>
-        <li>9521711557</li>
+        <li>+919521711557</li>
         <li>info@shavol.com</li>
         <li>DELHI-INDIA </li>
       </ul>
@@ -899,11 +898,11 @@ const PRODUCTS = [
 ];
 
 const CATEGORY_META = {
-  'Pain Relief':               { icon:'ic-tablet',  color:'#1E8F5A' },
-  'Antibiotics':                { icon:'ic-tablet',  color:'#5B3E96' },
-  'Respiratory Care':           { icon:'ic-lungs',   color:'#16305C' },
-  'Vitamins & Supplements':     { icon:'ic-bottle',  color:'#B8860B' },
-  'Digestive Health':           { icon:'ic-fizz',    color:'#D9A21B' }
+  'Pain Relief':               { icon:'ic-tablet',  color:'#1E8F5A', img:'https://images.pexels.com/photos/17820718/pexels-photo-17820718.jpeg?auto=compress&cs=tinysrgb&w=400' },
+  'Antibiotics':                { icon:'ic-tablet',  color:'#5B3E96', img:'https://images.pexels.com/photos/3683116/pexels-photo-3683116.jpeg?auto=compress&cs=tinysrgb&w=400' },
+  'Respiratory Care':           { icon:'ic-lungs',   color:'#16305C', img:'https://images.pexels.com/photos/9155926/pexels-photo-9155926.jpeg?auto=compress&cs=tinysrgb&w=400' },
+  'Vitamins & Supplements':     { icon:'ic-bottle',  color:'#B8860B', img:'https://images.pexels.com/photos/3683041/pexels-photo-3683041.jpeg?auto=compress&cs=tinysrgb&w=400' },
+  'Digestive Health':           { icon:'ic-fizz',    color:'#D9A21B', img:'https://images.pexels.com/photos/9902135/pexels-photo-9902135.jpeg?auto=compress&cs=tinysrgb&w=400' }
 };
 const CATEGORIES = Object.keys(CATEGORY_META);
 
@@ -919,10 +918,12 @@ catGrid.innerHTML = CATEGORIES.map(cat => {
   const count = PRODUCTS.filter(p => p.category === cat).length;
   return `
     <button class="cat-card" data-cat="${cat}">
-      <span class="cat-icon" style="background:${meta.color}"><svg class="icon"><use href="#${meta.icon}"/></svg></span>
-      <h3>${cat}</h3>
-      <p>${categoryBlurb(cat)}</p>
-      <span class="cat-count">${count} formulation${count > 1 ? 's' : ''}</span>
+      <img class="cat-photo" src="${meta.img}" alt="${cat} formulations" loading="lazy">
+      <div class="cat-body">
+        <h3>${cat}</h3>
+        <p>${categoryBlurb(cat)}</p>
+        <span class="cat-count">${count} formulation${count > 1 ? 's' : ''}</span>
+      </div>
     </button>`;
 }).join('');
 
